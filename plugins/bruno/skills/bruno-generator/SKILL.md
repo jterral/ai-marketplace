@@ -26,9 +26,25 @@ meta {
   seq: 1
 }
 
-{METHOD} {
-  url: {{baseAddress}}/{route}
-  body: {none|json}
+get {
+  url: {{baseAddress}}/route
+  body: none
+  auth: none
+}
+```
+
+The HTTP block is named after the **lowercase** method (`get`, `post`, `put`, `patch`, `delete`). For a request with a JSON body, set `body: json` in that block, add a `headers` block, and add a `body:json` block holding the payload:
+
+```bru
+meta {
+  name: CreateUser
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseAddress}}/users
+  body: json
   auth: none
 }
 
@@ -36,15 +52,17 @@ headers {
   Content-Type: application/json
 }
 
-{body json if applicable}
-{
-  {request body from model}
+body:json {
+  {
+    "name": "Jane Doe"
+  }
 }
 ```
 
 ## Rules
 
 - Method and route inferred from the controller attributes (`[HttpGet]`, `[HttpPost]`, `[Route]`, etc.)
+- The HTTP block name is the lowercase method; `headers` and `body:json` blocks are only present when the request has a body
 - `seq`: use the next available number among the `.bru` files already in the target folder (not always `1`)
 - Body populated from the request DTO properties if applicable
 - No body block for GET/DELETE

@@ -12,7 +12,8 @@ description: PR title and description format using Conventional Commit types and
 ## Titles
 
 - Format: `<type>(<scope>): <description>`
-- Use the same types as commits: `feat`, `fix`, `chore`, `docs`, `refactor`
+- Use the same types as commits (see `git-conventional-commit`): `feat`, `fix`, `chore`, `docs`, `refactor`
+- Mark breaking changes with `!` after the scope (`feat(api)!: ...`); the PR title becomes the squash commit message, so it drives the version bump
 - Scope: a functional noun describing the area of the codebase (e.g., `auth`, `api`, `ci`)
 - Description: imperative, lowercase, no period
 

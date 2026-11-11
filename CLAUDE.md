@@ -44,6 +44,9 @@ ai-marketplace/
 ├── .github/
 │   └── workflows/                  # CI/CD pipelines
 │
+├── scripts/
+│   └── validate-marketplace.mjs    # Structure validation (run in CI)
+│
 ├── apm.yml                         # Agent Package Manager dependencies
 └── mise.toml                       # Tool version management
 ```
@@ -190,7 +193,7 @@ mise sync               # Update tool versions
 
 GitHub Actions workflows in `.github/workflows/`:
 
-- `ci.yml` — Run tests and linting on push
+- `ci.yml` — On pull requests: run pre-commit hooks and validate the marketplace (`scripts/validate-marketplace.mjs`)
 - `pr-lint.yml` — Enforce conventional commits on PRs
 - `release.yml` — Automated releases
 
@@ -224,7 +227,7 @@ Optional fields:
 
 ### Audit & Review
 
-This playbook undergoes regular reviews to:
+This marketplace undergoes regular reviews to:
 
 - Verify all skills use English-only content
 - Remove duplicate files and consolidate utilities

@@ -13,3 +13,9 @@ jobs:
         with:
           python-version: "3.13"
       - uses: pre-commit/action@v3.0.1
+
+  validate-marketplace:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: node scripts/validate-marketplace.mjs

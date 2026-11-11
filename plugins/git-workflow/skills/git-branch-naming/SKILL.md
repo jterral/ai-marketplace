@@ -9,10 +9,13 @@ Format: `{type}/{slug}`
 
 ## Types
 
+Same types as Conventional Commits (see `git-conventional-commit`), with `feat` spelled out as `feature`:
+
 - `feature` — new functionality (default if unknown)
 - `fix` — bug fix
 - `chore` — maintenance, dependencies, config
 - `docs` — documentation only
+- `refactor` — restructuring without behavior change
 
 ## Rules
 
