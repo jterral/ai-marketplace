@@ -12,7 +12,7 @@ description: PR title and description format using Conventional Commit types and
 ## Titles
 
 - Format: `<type>(<scope>): <description>`
-- Use the same types as commits: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`
+- Use the same types as commits: `feat`, `fix`, `chore`, `docs`, `refactor`
 - Scope: a functional noun describing the area of the codebase (e.g., `auth`, `api`, `ci`)
 - Description: imperative, lowercase, no period
 

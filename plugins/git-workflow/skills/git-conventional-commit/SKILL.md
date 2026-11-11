@@ -12,7 +12,7 @@ description: Instructions for writing commit messages following the Conventional
 
 - `<type>(<scope>): <description>`
 - **Scope is mandatory** — never omit it
-- Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`
+- Types: `feat`, `fix`, `chore`, `docs`, `refactor`
 - Scope: a functional noun describing the area of the codebase affected (e.g., `auth`, `parser`, `ci`)
 - Description: imperative, lowercase, no period
 
