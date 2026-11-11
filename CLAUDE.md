@@ -1,13 +1,13 @@
-# AI Playbook — Claude Code Guide
+# AI Marketplace — Claude Code Guide
 
 ## Project Overview
 
-The **AI Playbook** is a Claude Code plugin marketplace: a centralized collection of skills, rules, commands, and agents. It provides standardized guidance for code review, workflow automation, development practices, and quality standards, designed to be reusable across multiple projects (.NET, Flutter, ...).
+The **AI Marketplace** is a Claude Code plugin marketplace: a centralized collection of skills, rules, commands, and agents. It provides standardized guidance for code review, workflow automation, development practices, and quality standards, designed to be reusable across multiple projects (.NET, Flutter, ...).
 
 ## Directory Structure
 
 ```txt
-ai-playbook/
+ai-marketplace/
 ├── plugins/                        # All plugins (each with .claude-plugin/plugin.json + skills/)
 │   ├── bruno/
 │   │   ├── .claude-plugin/plugin.json
@@ -158,7 +158,7 @@ Brief explanation of what the skill does and when to use it.
 
 ### Updating Dependencies
 
-AI Playbook uses APM (Agent Package Manager) to pull base instructions from `github/awesome-copilot`:
+AI Marketplace uses APM (Agent Package Manager) to pull base instructions from `github/awesome-copilot`:
 
 ```bash
 apm update  # Update dependencies from apm.yml
