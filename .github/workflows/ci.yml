@@ -1,7 +1,6 @@
 name: ci
 
 on:
-  workflow_dispatch:
   pull_request:
 
 jobs:
@@ -19,3 +18,4 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - run: node scripts/validate-marketplace.mjs
+      - run: node scripts/generate-docs.mjs --check

@@ -2,46 +2,20 @@
 // Validates the marketplace structure. Dependency-free: runs with any Node >= 18.
 // Usage: node scripts/validate-marketplace.mjs
 
-import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync } from "node:fs";
 import { dirname, join, relative, resolve, sep } from "node:path";
-import { fileURLToPath } from "node:url";
+import { frontmatter, isDir, markdownFiles, read, readJson as parseJson, root, subdirs } from "./lib.mjs";
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const errors = [];
 const fail = (file, message) => errors.push(`${relative(root, file) || "."}: ${message}`);
-const read = (file) => readFileSync(file, "utf8");
-const isDir = (p) => existsSync(p) && statSync(p).isDirectory();
-const subdirs = (p) => (isDir(p) ? readdirSync(p).filter((n) => isDir(join(p, n))) : []);
 
 function readJson(file) {
   try {
-    return JSON.parse(read(file));
+    return parseJson(file);
   } catch (e) {
     fail(file, `invalid JSON (${e.message})`);
     return null;
   }
-}
-
-// Minimal frontmatter parser: top-level `key: value` pairs, with support for
-// folded/literal block scalars (`>` / `|`). Enough for name/description checks.
-function frontmatter(file) {
-  const text = read(file).replace(/\r\n/g, "\n");
-  const match = text.match(/^---\n([\s\S]*?)\n---(\n|$)/);
-  if (!match) return null;
-  const fields = {};
-  const lines = match[1].split("\n");
-  for (let i = 0; i < lines.length; i++) {
-    const kv = lines[i].match(/^([A-Za-z][\w-]*):\s*(.*)$/);
-    if (!kv) continue;
-    let value = kv[2].trim();
-    if (/^[>|][+-]?$/.test(value)) {
-      const block = [];
-      while (i + 1 < lines.length && /^\s+\S|^\s*$/.test(lines[i + 1])) block.push(lines[++i].trim());
-      value = block.join(" ").trim();
-    }
-    fields[kv[1]] = value.replace(/^(['"])(.*)\1$/, "$2");
-  }
-  return fields;
 }
 
 // --- Marketplace manifest ---------------------------------------------------
@@ -107,7 +81,7 @@ for (const entry of plugins) {
   for (const kind of ["commands", "agents"]) {
     const folder = join(dir, kind);
     if (!isDir(folder)) continue;
-    for (const f of readdirSync(folder).filter((n) => n.endsWith(".md"))) {
+    for (const f of markdownFiles(folder)) {
       const file = join(folder, f);
       const fm = frontmatter(file);
       if (!fm) fail(file, "missing frontmatter");
@@ -122,15 +96,12 @@ for (const dirName of subdirs(join(root, "plugins"))) {
   if (!declared.has(dirName)) fail(join(root, "plugins", dirName), "plugin directory is not declared in marketplace.json");
 }
 
-// --- Documentation drift ------------------------------------------------------
+// --- Documentation links ------------------------------------------------------
 
 for (const docName of ["README.md", "CLAUDE.md"]) {
   const docFile = join(root, docName);
   if (!existsSync(docFile)) continue;
   const doc = read(docFile);
-  for (const name of declared) if (!doc.includes(name)) fail(docFile, `plugin "${name}" is not mentioned`);
-  for (const { name } of allSkills) if (!doc.includes(name)) fail(docFile, `skill "${name}" is not mentioned`);
-
   // Relative markdown links must resolve.
   for (const m of doc.matchAll(/\]\((?!https?:|#|mailto:)([^)\s#]+)(?:#[^)]*)?\)/g)) {
     if (!existsSync(resolve(dirname(docFile), m[1]))) fail(docFile, `broken link "${m[1]}"`);
