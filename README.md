@@ -43,7 +43,7 @@ Autonomous code audit plugin: /audit command, auditor agent, clean-architecture 
 | `auditor` | agent | Audits code for quality, architecture, and security issues |
 | [audit-architecture](./plugins/code-auditor/skills/audit-architecture/SKILL.md) | skill | Technology-agnostic Clean Architecture audit checking layer boundaries, dependency direction, domain isolation, and coupling |
 | [audit-quality](./plugins/code-auditor/skills/audit-quality/SKILL.md) | skill | Very demanding code quality audit covering readability, error handling, tests, performance, observability, and technical debt |
-| [audit-security](./plugins/code-auditor/skills/audit-security/SKILL.md) | skill | Security audit detecting secret leaks (API keys, tokens, passwords, connection strings), sensitive data in logs, injection risks, missing input validation, and authn/authz gaps |
+| [audit-security](./plugins/code-auditor/skills/audit-security/SKILL.md) | skill | Security audit detecting secret leaks, sensitive data in logs, injection risks, missing input validation, and authn/authz gaps |
 
 ### dotnet
 
