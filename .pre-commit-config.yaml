@@ -12,7 +12,7 @@ repos:
       - id: conventional-pre-commit
         name: conventional commit
         stages: [commit-msg]
-        args: [feat, fix, chore, docs, style, refactor, perf, test]
+        args: [feat, fix, chore, docs, refactor]
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
