@@ -1,5 +1,5 @@
 [env]
-PROJECT_NAME = "ai-playbook"
+PROJECT_NAME = "ai-marketplace"
 
 [tools]
 gitversion = "6.8"

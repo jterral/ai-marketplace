@@ -1,4 +1,4 @@
-# AI Playbook
+# AI Marketplace
 
 A Claude Code plugin marketplace of reusable skills, rules, commands, and agents: git workflow, code auditing, API testing, and .NET and Flutter conventions.
 
@@ -30,7 +30,7 @@ This repository provides a curated set of skills, consumable two ways:
 ## 📁 Project Structure
 
 ```txt
-ai-playbook/
+ai-marketplace/
 ├── plugins/                         # All plugins (each self-contained)
 │   ├── bruno/
 │   │   ├── .claude-plugin/plugin.json
@@ -59,12 +59,12 @@ ai-playbook/
 This repository is a [Claude Code plugin marketplace](https://docs.claude.com/en/docs/claude-code/plugins) exposing five plugins that can be installed independently. From a Claude Code session:
 
 ```txt
-/plugin marketplace add jterral/ai-playbook
-/plugin install git-workflow@ai-playbook
-/plugin install code-auditor@ai-playbook
-/plugin install bruno@ai-playbook
-/plugin install dotnet@ai-playbook
-/plugin install flutter@ai-playbook
+/plugin marketplace add jterral/ai-marketplace
+/plugin install git-workflow@ai-marketplace
+/plugin install code-auditor@ai-marketplace
+/plugin install bruno@ai-marketplace
+/plugin install dotnet@ai-marketplace
+/plugin install flutter@ai-marketplace
 ```
 
 | Plugin           | Contents                                                                             |
@@ -84,8 +84,8 @@ Skills follow the [APM (Agent Package Manager)](https://microsoft.github.io/apm/
 ```yaml
 dependencies:
   apm:
-    - jterral/ai-playbook/plugins/git-workflow
-    - jterral/ai-playbook/plugins/dotnet
+    - jterral/ai-marketplace/plugins/git-workflow
+    - jterral/ai-marketplace/plugins/dotnet
 ```
 
 Then run `apm update` to install them.
