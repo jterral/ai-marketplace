@@ -11,8 +11,13 @@ Requested scope: $ARGUMENTS (default to "pr" if empty)
 
 If scope is "pr":
 
-- Run `git diff main...HEAD --stat` to list the changed files
-- Run `git diff main...HEAD` to get the full diff
+- Detect the base branch: use `git symbolic-ref --short refs/remotes/origin/HEAD`
+  (e.g. `origin/main`); if it fails, fall back to the first existing of
+  `main`, `master`, `develop`
+- If the current branch is the base branch itself, or the diff is empty,
+  tell the user there is nothing to audit and stop (suggest `full` instead)
+- Run `git diff <base>...HEAD --stat` to list the changed files
+- Run `git diff <base>...HEAD` to get the full diff
 - The audit input is this diff and the list of changed files
 
 If scope is "full":

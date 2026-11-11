@@ -17,7 +17,7 @@ Whenever a Flutter task involves creating new files, widgets, screens, providers
 lib/
 ├── app/                          # App-level config
 │   ├── app.dart                  # MaterialApp / entry point
-│   ├── app.design.dart           # Design tokens / style
+│   ├── app.style.dart            # Design tokens / style
 │   └── app.router.dart           # Navigation / routing
 │
 ├── features/{feature_name}/      # Feature modules
