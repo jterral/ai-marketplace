@@ -6,13 +6,50 @@ The **AI Marketplace** is a Claude Code plugin marketplace: a centralized collec
 
 ## Directory Structure
 
-- `plugins/{name}/` — one directory per plugin: `.claude-plugin/plugin.json`, plus `skills/`, `commands/` and `agents/` as needed (auto-discovered)
-- `.claude-plugin/marketplace.json` — the marketplace manifest; **single source of truth** for the plugin list
-- `scripts/` — `validate-marketplace.mjs` (structure checks) and `generate-docs.mjs` (generates the plugin catalog in `README.md`)
-- `.github/workflows/` — CI/CD pipelines
-- `apm.yml`, `mise.toml` — dependency and tool version management
-
-The list of plugins, skills, commands and agents is **not** maintained by hand anywhere: browse `plugins/`, or read the generated catalog in `README.md`.
+```txt
+ai-marketplace/
+├── plugins/                        # All plugins (each with .claude-plugin/plugin.json + skills/)
+│   ├── bruno/
+│   │   ├── .claude-plugin/plugin.json
+│   │   └── skills/
+│   │       ├── bruno-e2e/SKILL.md
+│   │       └── bruno-generator/SKILL.md
+│   ├── code-auditor/
+│   │   ├── .claude-plugin/plugin.json
+│   │   ├── commands/audit.md       # /audit [pr|full]
+│   │   ├── agents/auditor.md       # autonomous read-only audit agent
+│   │   └── skills/
+│   │       ├── audit-architecture/SKILL.md
+│   │       ├── audit-security/SKILL.md
+│   │       └── audit-quality/SKILL.md
+│   ├── dotnet/
+│   │   ├── .claude-plugin/plugin.json
+│   │   └── skills/csharp-conventions/SKILL.md
+│   ├── flutter/
+│   │   ├── .claude-plugin/plugin.json
+│   │   └── skills/
+│   │       ├── flutter-architecture/SKILL.md
+│   │       ├── flutter-orient-ui/SKILL.md
+│   │       └── flutter-style/SKILL.md
+│   └── git-workflow/
+│       ├── .claude-plugin/plugin.json
+│       └── skills/
+│           ├── git-branch-naming/SKILL.md
+│           ├── git-conventional-commit/SKILL.md
+│           └── git-pull-request-formatting/SKILL.md
+│
+├── .claude-plugin/
+│   └── marketplace.json            # Claude Code marketplace (5 plugins, all via source: ./plugins/{name})
+│
+├── .github/
+│   └── workflows/                  # CI/CD pipelines
+│
+├── scripts/
+│   └── validate-marketplace.mjs    # Structure validation (run in CI)
+│
+├── apm.yml                         # Agent Package Manager dependencies
+└── mise.toml                       # Tool version management
+```
 
 ## Skill Framework
 
@@ -33,11 +70,36 @@ description: Brief description of what the skill does and when to use it
 # Step-by-step instructions or guidelines here
 ```
 
-### Adding to a plugin
+### Available Skills
 
-Skills, commands and agents are auto-discovered from their plugin directory. When adding a skill, no change to `marketplace.json` is needed. A new plugin needs a `plugins/{name}/.claude-plugin/plugin.json` and an entry in `marketplace.json` (`source: ./plugins/{name}`).
+| Skill                           | Purpose                                     | Category        |
+| ------------------------------- | ------------------------------------------- | --------------- |
+| **audit-architecture**          | Tech-agnostic Clean Architecture audit      | Quality Review  |
+| **audit-security**              | Secret leak & vulnerability detection       | Quality Review  |
+| **audit-quality**               | Demanding code quality audit                | Quality Review  |
+| **bruno-e2e**                   | Run Bruno API tests interactively           | Testing         |
+| **bruno-generator**             | Generate Bruno .bru test files              | Code Generation |
+| **csharp-conventions**          | C# and .NET coding conventions (auto)       | Conventions     |
+| **flutter-architecture**        | Flutter feature-first architecture (auto)   | Conventions     |
+| **flutter-orient-ui**           | Orient UI component usage in Flutter (auto) | Conventions     |
+| **flutter-style**               | Flutter styling for Apple compliance (auto) | Conventions     |
+| **git-branch-naming**           | Git branch naming convention (auto)         | Documentation   |
+| **git-conventional-commit**     | Conventional Commits format guide           | Documentation   |
+| **git-pull-request-formatting** | PR title and description format             | Documentation   |
 
-After any change to a plugin, run `node scripts/generate-docs.mjs` to refresh the `README.md` catalog.
+### Claude Code Marketplace Plugins
+
+Five plugins are declared in `.claude-plugin/marketplace.json`. Every plugin lives under `plugins/{name}/` with its own `plugin.json` and `skills/` directory — skills are auto-discovered by convention, no explicit `skills` paths needed in `marketplace.json`:
+
+| Plugin           | Source                    | Contents                                                                             |
+| ---------------- | ------------------------- | ------------------------------------------------------------------------------------ |
+| **bruno**        | `./plugins/bruno`         | bruno-e2e, bruno-generator                                                           |
+| **code-auditor** | `./plugins/code-auditor`  | `/audit` command, `auditor` agent, audit-architecture, audit-security, audit-quality |
+| **dotnet**       | `./plugins/dotnet`        | csharp-conventions                                                                   |
+| **flutter**      | `./plugins/flutter`       | flutter-architecture, flutter-orient-ui, flutter-style                               |
+| **git-workflow** | `./plugins/git-workflow`  | git-branch-naming, git-conventional-commit, git-pull-request-formatting              |
+
+When adding a new skill, add it inside the relevant plugin's `skills/` directory — no changes to `marketplace.json` needed (auto-discovery handles it).
 
 ### Conventions
 
@@ -70,7 +132,7 @@ Each skill should document:
 
 1. Choose the relevant plugin under `plugins/{plugin-name}/skills/`
 2. Create a new directory: `plugins/{plugin-name}/skills/{skill-name}/`
-3. Add `SKILL.md` with frontmatter and content (the first sentence of the `description` appears in the generated README catalog)
+3. Add `SKILL.md` with frontmatter and content
 4. Use this template:
 
 ```yaml
@@ -95,8 +157,7 @@ Brief explanation of what the skill does and when to use it.
 
 1. Ensure content is English-only
 2. Test the skill in Claude Code
-3. Run `node scripts/validate-marketplace.mjs` and `node scripts/generate-docs.mjs`
-4. Create a PR with your new skill
+3. Create a PR with your new skill
 
 ### Updating Dependencies
 
@@ -132,7 +193,7 @@ mise sync               # Update tool versions
 
 GitHub Actions workflows in `.github/workflows/`:
 
-- `ci.yml` — On pull requests: run pre-commit hooks, validate the marketplace and check that the README catalog is up to date
+- `ci.yml` — On pull requests: run pre-commit hooks and validate the marketplace (`scripts/validate-marketplace.mjs`)
 - `pr-lint.yml` — Enforce conventional commits on PRs
 - `release.yml` — Automated releases
 
