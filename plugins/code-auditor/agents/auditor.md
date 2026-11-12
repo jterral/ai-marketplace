@@ -37,14 +37,16 @@ Rules:
 
 ## Output format
 
-Produce a single consolidated report, ordered by priority:
+Produce a single consolidated report, ordered by priority. The three skills share this severity scale; use it as-is and merge duplicate findings:
 
 - 🔴 Critical (must fix before merge)
 - 🟠 Warning (should fix soon)
 - 🟡 Suggestion (nice to have)
 
 For each finding: `file:line`, the issue, and a concrete recommendation.
-Do not pad the report — if a category has no findings, omit it.
+Do not pad the report — if a category has no findings, omit it. Do not add per-skill sections or extra plans: only findings, open questions and the verdict.
+
+If intent or constraints could not be determined from the code, list them under a final **Open questions** heading, before the verdict.
 
 End with a global verdict: **APPROVE** or **REQUEST_CHANGES**, with a
 one-sentence justification.

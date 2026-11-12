@@ -1,6 +1,6 @@
 ---
 name: audit-architecture
-description: Technology-agnostic Clean Architecture audit checking layer boundaries, dependency direction, domain isolation, and coupling. Use when reviewing a diff or a codebase for structural violations such as business logic in controllers, entities coupled to persistence, or dependencies pointing outward.
+description: Technology-agnostic Clean Architecture audit checking layer boundaries, dependency direction, domain isolation, and coupling. Part of the /audit workflow, applied by the code-auditor agent first; not for ad-hoc reviews.
 ---
 
 # Architecture Audit Skill
@@ -11,7 +11,7 @@ Audit code structure against Clean Architecture principles without assuming any 
 
 ## When to Use This Skill
 
-- Reviewing a PR diff or a codebase for structural and layering violations
+- Running as part of `/audit` on a PR diff or a codebase, for structural and layering violations
 - Assessing whether business logic is properly isolated from frameworks and transport
 - Evaluating coupling, cohesion, and dependency direction before a merge
 

@@ -1,6 +1,6 @@
 ---
 name: audit-security
-description: Security audit detecting secret leaks (API keys, tokens, passwords, connection strings), sensitive data in logs, injection risks, missing input validation, and authn/authz gaps. Use when reviewing a diff or a codebase for credentials leaks, vulnerabilities, or security regressions.
+description: Security audit detecting secret leaks, sensitive data in logs, injection risks, missing input validation, and authn/authz gaps. Part of the /audit workflow, applied by the code-auditor agent after the architecture audit; not for ad-hoc reviews.
 ---
 
 # Security Audit Skill
@@ -75,6 +75,7 @@ Also check:
 ## Gotchas
 
 - **A removed secret is still a finding.** Git history keeps it; rotation is the only fix.
+- **Test-mode keys are lower severity.** A `sk_test_` key or a credential for a throwaway local database is 🟠 Warning, not 🔴 Critical, unless it also grants access to real data.
 - **Placeholders are fine — verify before flagging.** `<your-api-key>`, `changeme`, obvious dummy values are not leaks; high-entropy realistic strings in fixtures are.
 - **Do not flag parameterized queries or vetted crypto libraries** just because keywords like `password` appear nearby — confirm the actual data flow first.
 
